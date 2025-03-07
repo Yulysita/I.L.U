@@ -9,59 +9,79 @@
             text-align: center;
             font-family: Arial, sans-serif;
             background-color: #fce4ec;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            overflow: hidden;
         }
 
         .container {
             position: relative;
-            margin-top: 50px;
+            width: 220px;
+            height: 200px;
         }
 
         .envelope {
-            position: relative;
+            position: absolute;
+            bottom: 0;
             width: 200px;
-            height: 150px;
-            background-color: #e57373;
-            margin: 0 auto;
+            height: 120px;
+            background-color: #f8bbd0; /* Rosa más pálido */
             border-radius: 10px;
-            cursor: pointer;
+            overflow: hidden;
         }
 
         .flap {
             position: absolute;
             top: 0;
-            width: 0;
-            height: 0;
-            border-left: 100px solid transparent;
-            border-right: 100px solid transparent;
-            border-bottom: 80px solid #f06292;
-            transition: transform 0.5s;
+            left: 0;
+            width: 200px;
+            height: 100px;
+            background-color: #f48fb1; /* Color más oscuro */
+            clip-path: polygon(0 0, 100% 0, 50% 60%);
+            transition: transform 0.6s ease-in-out;
+            transform-origin: top;
         }
 
         .letter {
             position: absolute;
-            top: 80px;
+            bottom: 10px;
+            left: 10px;
             width: 180px;
             height: 100px;
             background-color: white;
             text-align: center;
-            padding-top: 20px;
+            padding: 20px;
             font-size: 14px;
             font-weight: bold;
             opacity: 0;
-            transition: opacity 0.5s;
+            transform: translateY(30px);
+            transition: transform 0.6s ease-in-out, opacity 0.6s ease-in-out;
+            border-radius: 5px;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .hearts {
+            position: absolute;
+            bottom: 0;
+            width: 200px;
+            height: 200px;
+            pointer-events: none;
         }
 
         .heart {
             position: absolute;
             color: red;
             font-size: 20px;
-            animation: floatUp 2s linear infinite;
-            display: none;
+            opacity: 0;
+            animation: floatUp 2s linear forwards;
         }
 
         @keyframes floatUp {
             0% { transform: translateY(0); opacity: 1; }
-            100% { transform: translateY(-50px); opacity: 0; }
+            100% { transform: translateY(-100px); opacity: 0; }
         }
 
         .buttons {
@@ -76,6 +96,7 @@
             cursor: pointer;
             border-radius: 5px;
             transition: background 0.3s;
+            margin: 5px;
         }
 
         .btn:hover {
@@ -101,6 +122,7 @@
         function openEnvelope() {
             document.getElementById("flap").style.transform = "rotateX(180deg)";
             document.getElementById("letter").style.opacity = "1";
+            document.getElementById("letter").style.transform = "translateY(-20px)";
 
             let heartsContainer = document.getElementById("hearts");
             heartsContainer.innerHTML = "";
@@ -108,16 +130,17 @@
                 let heart = document.createElement("div");
                 heart.innerHTML = "❤️";
                 heart.classList.add("heart");
-                heart.style.left = Math.random() * 200 + "px";
-                heart.style.animationDuration = (1 + Math.random()) + "s";
+                heart.style.left = Math.random() * 180 + "px";
+                heart.style.animationDuration = (1.5 + Math.random()) + "s";
                 heartsContainer.appendChild(heart);
-                setTimeout(() => heart.style.display = "block", i * 300);
+                setTimeout(() => heart.style.opacity = "1", i * 300);
             }
         }
 
         function closeEnvelope() {
             document.getElementById("flap").style.transform = "rotateX(0deg)";
             document.getElementById("letter").style.opacity = "0";
+            document.getElementById("letter").style.transform = "translateY(30px)";
             document.getElementById("hearts").innerHTML = "";
         }
     </script>
