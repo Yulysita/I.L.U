@@ -36,7 +36,7 @@
             z-index: 1;
         }
 
-        /* Solapa corregida (triángulo apuntando hacia abajo cuando está cerrada) */
+        /* Solapa */
         .flap {
             position: absolute;
             top: 0;
@@ -68,6 +68,18 @@
             top: -15px;
             border-radius: 5px;
             z-index: 3;
+        }
+
+        /* Corazones flotando */
+        .hearts {
+            position: absolute;
+            width: 100%;
+            height: 150px;
+            top: -50px; /* Ajustado para que los corazones salgan de la carta */
+            left: 50%;
+            transform: translateX(-50%);
+            overflow: visible;
+            z-index: 4;
         }
 
         .heart {
@@ -108,8 +120,8 @@
             <div class="flap" id="flap"></div>
             <div class="body"></div>
             <div class="letter" id="letter">Solo para recordarte que te quiero mucho Yerik</div>
+            <div class="hearts" id="hearts"></div> <!-- Movido dentro del sobre -->
         </div>
-        <div class="hearts" id="hearts"></div>
     </div>
     <div class="buttons">
         <button class="btn" onclick="openEnvelope()">Abrir sobre</button>
@@ -127,7 +139,7 @@
             
             let letter = document.getElementById("letter");
             letter.style.opacity = "1";
-            letter.style.transform = "translateY(-65px)"; // La carta sube un poco más
+            letter.style.transform = "translateY(-65px)";
 
             let heartsContainer = document.getElementById("hearts");
             heartsContainer.innerHTML = "";
@@ -136,7 +148,7 @@
                 let heart = document.createElement("div");
                 heart.innerHTML = "❤️";
                 heart.classList.add("heart");
-                heart.style.left = Math.random() * 200 + "px";
+                heart.style.left = Math.random() * 50 + "%"; /* Para que los corazones salgan desde la carta */
                 heart.style.animationDuration = (2 + Math.random()) + "s";
                 heartsContainer.appendChild(heart);
 
@@ -153,7 +165,7 @@
             
             let letter = document.getElementById("letter");
             letter.style.opacity = "0";
-            letter.style.transform = "translateY(10px)"; // La carta vuelve a su posición inicial
+            letter.style.transform = "translateY(10px)";
 
             clearInterval(heartInterval);
             setTimeout(() => {
@@ -165,3 +177,4 @@
     </script>
 </body>
 </html>
+
