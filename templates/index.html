@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mensaje Especial</title>
+    <style>
+        body {
+            text-align: center;
+            font-family: Arial, sans-serif;
+            background-color: #fce4ec;
+        }
+
+        .container {
+            position: relative;
+            margin-top: 50px;
+        }
+
+        .envelope {
+            position: relative;
+            width: 200px;
+            height: 150px;
+            background-color: #e57373;
+            margin: 0 auto;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        .flap {
+            position: absolute;
+            top: 0;
+            width: 0;
+            height: 0;
+            border-left: 100px solid transparent;
+            border-right: 100px solid transparent;
+            border-bottom: 80px solid #f06292;
+            transition: transform 0.5s;
+        }
+
+        .letter {
+            position: absolute;
+            top: 80px;
+            width: 180px;
+            height: 100px;
+            background-color: white;
+            text-align: center;
+            padding-top: 20px;
+            font-size: 14px;
+            font-weight: bold;
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+
+        .heart {
+            position: absolute;
+            color: red;
+            font-size: 20px;
+            animation: floatUp 2s linear infinite;
+            display: none;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0); opacity: 1; }
+            100% { transform: translateY(-50px); opacity: 0; }
+        }
+
+        .buttons {
+            margin-top: 20px;
+        }
+
+        .btn {
+            background-color: #f06292;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #d81b60;
+        }
+    </style>
+</head>
+<body>
+    <h2>Haz clic en el sobre</h2>
+    <div class="container">
+        <div class="envelope" onclick="openEnvelope()">
+            <div class="flap" id="flap"></div>
+            <div class="letter" id="letter">Solo para recordarte que te quiero mucho Yerik</div>
+        </div>
+        <div class="hearts" id="hearts"></div>
+    </div>
+    <div class="buttons">
+        <button class="btn" onclick="openEnvelope()">Abrir sobre</button>
+        <button class="btn" onclick="closeEnvelope()">Cerrar sobre</button>
+    </div>
+
+    <script>
+        function openEnvelope() {
+            document.getElementById("flap").style.transform = "rotateX(180deg)";
+            document.getElementById("letter").style.opacity = "1";
+
+            let heartsContainer = document.getElementById("hearts");
+            heartsContainer.innerHTML = "";
+            for (let i = 0; i < 5; i++) {
+                let heart = document.createElement("div");
+                heart.innerHTML = "❤️";
+                heart.classList.add("heart");
+                heart.style.left = Math.random() * 200 + "px";
+                heart.style.animationDuration = (1 + Math.random()) + "s";
+                heartsContainer.appendChild(heart);
+                setTimeout(() => heart.style.display = "block", i * 300);
+            }
+        }
+
+        function closeEnvelope() {
+            document.getElementById("flap").style.transform = "rotateX(0deg)";
+            document.getElementById("letter").style.opacity = "0";
+            document.getElementById("hearts").innerHTML = "";
+        }
+    </script>
+</body>
+</html>
