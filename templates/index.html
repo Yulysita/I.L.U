@@ -9,46 +9,51 @@
             text-align: center;
             font-family: Arial, sans-serif;
             background-color: #fce4ec;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            overflow: hidden;
         }
 
         .container {
             position: relative;
-            width: 220px;
-            height: 200px;
+            margin-top: 50px;
         }
 
+        /* Sobre */
         .envelope {
-            position: absolute;
-            bottom: 0;
+            position: relative;
             width: 200px;
             height: 120px;
-            background-color: #f8bbd0; /* Rosa más pálido */
-            border-radius: 10px;
-            overflow: hidden;
+            margin: 0 auto;
+            cursor: pointer;
         }
 
+        /* Cuerpo del sobre */
+        .body {
+            position: absolute;
+            width: 200px;
+            height: 120px;
+            background-color: #f8bbd0;
+            bottom: 0;
+            border-radius: 10px;
+            z-index: 1;
+        }
+
+        /* Solapa corregida (triángulo apuntando hacia abajo cuando está cerrada) */
         .flap {
             position: absolute;
             top: 0;
             left: 0;
-            width: 200px;
-            height: 100px;
-            background-color: #f48fb1; /* Color más oscuro */
-            clip-path: polygon(0 0, 100% 0, 50% 60%);
-            transition: transform 0.6s ease-in-out;
-            transform-origin: top;
+            width: 0;
+            height: 0;
+            border-left: 100px solid transparent;
+            border-right: 100px solid transparent;
+            border-top: 70px solid #f06292;
+            transform-origin: top center;
+            transition: transform 0.5s ease-in-out;
+            z-index: 2;
         }
 
+        /* Carta */
         .letter {
             position: absolute;
-            bottom: 10px;
-            left: 10px;
             width: 180px;
             height: 100px;
             background-color: white;
@@ -57,26 +62,19 @@
             font-size: 14px;
             font-weight: bold;
             opacity: 0;
-            transform: translateY(30px);
-            transition: transform 0.6s ease-in-out, opacity 0.6s ease-in-out;
+            transform: translateY(10px);
+            transition: opacity 0.5s, transform 0.5s;
+            left: 10px;
+            top: -15px;
             border-radius: 5px;
-            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
-        }
-
-        .hearts {
-            position: absolute;
-            bottom: 0;
-            width: 200px;
-            height: 200px;
-            pointer-events: none;
+            z-index: 3;
         }
 
         .heart {
             position: absolute;
             color: red;
             font-size: 20px;
-            opacity: 0;
-            animation: floatUp 2s linear forwards;
+            animation: floatUp 3s linear infinite;
         }
 
         @keyframes floatUp {
@@ -96,7 +94,6 @@
             cursor: pointer;
             border-radius: 5px;
             transition: background 0.3s;
-            margin: 5px;
         }
 
         .btn:hover {
@@ -109,6 +106,7 @@
     <div class="container">
         <div class="envelope" onclick="openEnvelope()">
             <div class="flap" id="flap"></div>
+            <div class="body"></div>
             <div class="letter" id="letter">Solo para recordarte que te quiero mucho Yerik</div>
         </div>
         <div class="hearts" id="hearts"></div>
@@ -119,29 +117,50 @@
     </div>
 
     <script>
+        let heartInterval;
+        let isOpen = false;
+
         function openEnvelope() {
+            if (isOpen) return;
+
             document.getElementById("flap").style.transform = "rotateX(180deg)";
-            document.getElementById("letter").style.opacity = "1";
-            document.getElementById("letter").style.transform = "translateY(-20px)";
+            
+            let letter = document.getElementById("letter");
+            letter.style.opacity = "1";
+            letter.style.transform = "translateY(-65px)"; // La carta sube un poco más
 
             let heartsContainer = document.getElementById("hearts");
             heartsContainer.innerHTML = "";
-            for (let i = 0; i < 5; i++) {
+
+            heartInterval = setInterval(() => {
                 let heart = document.createElement("div");
                 heart.innerHTML = "❤️";
                 heart.classList.add("heart");
-                heart.style.left = Math.random() * 180 + "px";
-                heart.style.animationDuration = (1.5 + Math.random()) + "s";
+                heart.style.left = Math.random() * 200 + "px";
+                heart.style.animationDuration = (2 + Math.random()) + "s";
                 heartsContainer.appendChild(heart);
-                setTimeout(() => heart.style.opacity = "1", i * 300);
-            }
+
+                setTimeout(() => heart.remove(), 3000);
+            }, 500);
+
+            isOpen = true;
         }
 
         function closeEnvelope() {
+            if (!isOpen) return;
+
             document.getElementById("flap").style.transform = "rotateX(0deg)";
-            document.getElementById("letter").style.opacity = "0";
-            document.getElementById("letter").style.transform = "translateY(30px)";
-            document.getElementById("hearts").innerHTML = "";
+            
+            let letter = document.getElementById("letter");
+            letter.style.opacity = "0";
+            letter.style.transform = "translateY(10px)"; // La carta vuelve a su posición inicial
+
+            clearInterval(heartInterval);
+            setTimeout(() => {
+                document.getElementById("hearts").innerHTML = "";
+            }, 3000);
+
+            isOpen = false;
         }
     </script>
 </body>
