@@ -20,7 +20,7 @@
         }
 
         button {
-            background-color: #c2a382; /* Color marrón envejecido */
+            background-color: #c2a382;
             border: none;
             padding: 10px 20px;
             cursor: pointer;
@@ -35,11 +35,12 @@
 
         .carta-container {
             position: relative;
-            width: 300px;
-            height: 400px;
+            width: 350px;
+            height: 450px;
             display: flex;
             justify-content: center;
             align-items: center;
+            overflow: hidden;
         }
 
         .carta {
@@ -50,8 +51,6 @@
             border-radius: 5px;
             box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
             position: relative;
-
-            /* Animación de apertura */
             transform-origin: center;
             transform: scale(0.2) rotateX(90deg);
             animation: abrirCarta 2s forwards ease-out;
@@ -62,12 +61,14 @@
             top: 10%;
             left: 10%;
             right: 10%;
+            bottom: 10%;
             text-align: left;
-            font-size: 18px;
+            font-size: 16px;
             color: #4b382a;
-            font-family: 'Dancing Script', cursive; /* Fuente manuscrita */
+            font-family: 'Dancing Script', cursive;
             opacity: 0;
             animation: mostrarTexto 1.5s forwards 1.5s;
+            overflow-y: auto;
         }
 
         #regresar {
@@ -92,7 +93,6 @@
             display: none;
         }
 
-        /* Animaciones */
         @keyframes abrirCarta {
             0% { transform: scale(0.2) rotateX(90deg); }
             100% { transform: scale(1) rotateX(0deg); }
@@ -148,7 +148,7 @@
             setTimeout(() => {
                 cartaContainer.classList.add('oculto');
                 mensajeInicial.classList.remove('oculto');
-            }, 2000); // Esperar que la animación termine
+            }, 2000);
         });
     </script>
 </body>
